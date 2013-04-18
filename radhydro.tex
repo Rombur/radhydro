@@ -1,0 +1,93 @@
+\documentclass[letterpaper]{article}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float} % utiliser H pour forcer a mettre l'image ou on veut
+\usepackage{lscape} % utilisation du mode paysage
+\usepackage{mathbbol} % permet d'avoir le vrai symbol pour les reels grace a mathbb
+\usepackage{enumerate} % permet d'utiliser enumerate
+\usepackage{moreverb} % permet d'utiliser verbatimtab : conservation la tabulation
+\usepackage{stmaryrd} % permet d'utiliser \llbrackedt et \rrbracket : double crochet
+\usepackage[noabbrev]{cleveref} % permet d'utiliser cref and Cref
+\usepackage{caption} % permet d'utiliser subcaption
+\usepackage{subcaption} % permet d'utiliser subfigure, subtable, etc
+\usepackage[margin=1.in]{geometry} % controle les marges du document
+
+
+\newcommand\bn{\boldsymbol{\nabla}}
+\newcommand\bo{\boldsymbol{\Omega}}
+\newcommand\br{\mathbf{r}}
+\newcommand\la{\left\langle}
+\newcommand\ra{\right\rangle}
+\newcommand\bs{\boldsymbol}
+\newcommand\red{\textcolor{red}}
+\newcommand\ldb{\{\!\!\{}
+\newcommand\rdb{\}\!\!\}}
+\newcommand\llb{\llbracket}
+\newcommand\rrb{\rrbracket}
+
+\renewcommand{\(}{\left(}
+\renewcommand{\)}{\right)}
+\renewcommand{\[}{\left[}
+\renewcommand{\]}{\right]}
+
+
+\begin{document}
+\title{Radiation Hydrodynamic}
+\author{Bruno Turcksin} 
+\date{}
+\maketitle
+
+\section{Equations}
+In this section, we will develop the equations for radiation hydrodynamics and
+their discretization.
+\subsection{Hydrodynamic}
+First, we start with hydrodynamic equations.
+\subsection{Continuous equations}
+We want to solve the Euler equations:
+\begin{align}
+  &\frac{\partial \rho}{\partial t} + \bn (\rho \bs{u}) = 0 \label{mass},\\
+  &\frac{\partial \rho \bs{u}}{\partial t} + \bn (\rho\bs{u}\bs{u}) + \bn\p =
+  F \label{momentum},\\
+  &\frac{\partial}{\partial t}\(\rho e +\frac{1}{2}\rho u^2\) +
+  \bn\(\rho\bs{u}e + \frac{1}{2}\rho \bs{u} u^2+p\bs{u}\) = \rho q +\bs{u}F
+  \label{energy},
+\end{align}
+where:
+\begin{itemize}
+  \item $\rho$ is the density,
+  \item $t$ is the time,
+  \item $\bs{u}$ is the speed,
+  \item $\bs{u}\bs{u}$ is a tensor, the divergence is taken by assigning first
+  1 to the second index, and forming the ordinary divergence of
+  $\rho\bs{u}u_1$, then repeating for index 2 and index 3,
+  \item $p$ is the pressure,
+  \item $F$ is a body force,
+  \item $e$ is the internal energy,
+  \item $q$ is an external source of heat.
+\end{itemize}
+\Cref{mass} is the mass conservation equation, \cref{momentum} is the momentum
+conservation equation, and \cref{energy} is the energy conservation equation.
+The Euler equations describe an ideal fluid, i.e. with no viscosity and no heat
+conduction. These equations allow shocks.
+\subsubsection{Discretization}
+Major discretizations:
+\begin{enumerate}
+  \item[Lagrangian:] the mesh follows the material. This is very efficient in
+  one dimension but for multidimensional problems, the mesh can be too
+  distorted and new it is necessary to remesh the domain.
+  \item[Eulerian:] the mesh is fixed at the beginning of the calculation.
+  Adaptive Mesh Refinement (AMR) is often necessary to have an accurate
+  results.
+  \item[Arbitrary Lagrangian-Eulerian (ALE):] the mesh moves at a given speed.
+  \item[Smoothed particle hydrodynamics (SPH):] there is no mesh. SPH looks
+  like a Monte-Carlo method but initial particles are not selected randomly.
+  The method is first order.
+\end{enumerate}
+
+\section{Tests}
+
+\section{State-of-the-art codes}
+
+\end{document}
