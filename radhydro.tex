@@ -1,4 +1,4 @@
-\documentclass[letterpaper]{article}
+\documentclass[letterpaper]{report}
 \usepackage{amsmath}
 \usepackage{array}
 \usepackage{color}
@@ -33,22 +33,24 @@
 \renewcommand{\]}{\right]}
 
 
+\setcounter{secnumdepth}{3}
+
 \begin{document}
 \title{Radiation Hydrodynamic}
 \author{Bruno Turcksin} 
 \date{}
 \maketitle
 
-\section{Equations}
+\chapter{Equations}
 In this section, we will develop the equations for radiation hydrodynamics and
 their discretization.
-\subsection{Hydrodynamic}
+\section{Hydrodynamic}
 First, we start with hydrodynamic equations.
 \subsection{Continuous equations}
 We want to solve the Euler equations:
 \begin{align}
   &\frac{\partial \rho}{\partial t} + \bn (\rho \bs{u}) = 0 \label{mass},\\
-  &\frac{\partial \rho \bs{u}}{\partial t} + \bn (\rho\bs{u}\bs{u}) + \bn\p =
+  &\frac{\partial \rho \bs{u}}{\partial t} + \bn (\rho\bs{u}\bs{u}) + \bn p =
   F \label{momentum},\\
   &\frac{\partial}{\partial t}\(\rho e +\frac{1}{2}\rho u^2\) +
   \bn\(\rho\bs{u}e + \frac{1}{2}\rho \bs{u} u^2+p\bs{u}\) = \rho q +\bs{u}F
@@ -71,9 +73,9 @@ where:
 conservation equation, and \cref{energy} is the energy conservation equation.
 The Euler equations describe an ideal fluid, i.e. with no viscosity and no heat
 conduction. These equations allow shocks.
-\subsubsection{Discretization}
+\subsection{Discretization}
 Major discretizations:
-\begin{enumerate}
+\begin{description}
   \item[Lagrangian:] the mesh follows the material. This is very efficient in
   one dimension but for multidimensional problems, the mesh can be too
   distorted and new it is necessary to remesh the domain.
@@ -84,10 +86,62 @@ Major discretizations:
   \item[Smoothed particle hydrodynamics (SPH):] there is no mesh. SPH looks
   like a Monte-Carlo method but initial particles are not selected randomly.
   The method is first order.
-\end{enumerate}
+\end{description}
+In the rest of this paper, we will focus on Eulerian discretization.
+\subsubsection{Lagrangian plus advection}
+A time step consists of a ''Lagrangian'' step followed by an advection step.
+The idea is the same than operator split: for each of these substeps just part
+of the expression for the time derivative of each  is applied. The unknowns
+$\rho$, $\rho\bs{u}$, and $\rho e$ are updated using those parts of their time
+derivatives, and the updated values are the starting point for the next
+partial time step. For the Lagrangian step the density is left alone, the
+momentum density is updated using just the pressure gradient, after which a
+new flow velocity is calculated by division. The velocity and momentum density
+components are centered in time at $t_{n+1/2}$. The new velocities are used to
+calculated $\bn\bs{u}$ and the internal energy density is updated using just
+the first term on the right-hand side of \cref{3.22}. That completes the
+Lagrangian step.
 
-\section{Tests}
+Equations for the Lagrangian step:
+\begin{align}
+  &\frac{\partial \rho}{\partial t} = -\bn (\rho \bs{u}),\\
+  &\frac{\partial \rho \bs{u}}{\partial t} = -\bn p - \bn(\rho
+  \bs{u}\bs{u}),\\
+  &\frac{\partial \rho e}{\partial t} = -p\bn\bs{u} - \bn (\rho e \bs{u})
+  \label{3.22}.
+\end{align}
+Equations for the advection step:
+\begin{align}
+  &\frac{d}{dt}(\rho V) = -\int_S \rho \bs{u}d\br,
+  &\frac{d}{dt}(\rho \bs{u}V') = -\int_{S'} \rho \bs{u}\bs{u} d\br,
+  &\frac{d}{dt}(\rho e V) = -\int_S \rho \bs{u}e d\br.
+\end{align}
+$V$ is a zonal volume and $V'$ is a dual zone volume, since the velocity
+components are staggered in space from the quantities like density and
+internal energy. The surface $S$ and $S'$ represent the boundaries of $V$ and
+$V'$.
+\subsubsection{Godunov's methods}
+Godunov's methods are finite-volume methods. First, we write the Euler
+equations as:
+\begin{equation}
+  \frac{\partial U}{\partial t} + \bn \bs{F}(U)=0.
+\end{equation}
+The vector $U$ contains the conserved densities $\rho$, $\rho u_x$, $\rho
+u_y$, and $\rho e + \rho u^2/2$. The components of the flux vector are $\rho
+\bs{u}$, $\rho \bs{u}u_x+ p\bs{e}_x$, $\rho \bs{u} u_y+p\bs{e}_y$, and $\rho
+\bs{u} e +\rho \bs{u} u^2/2+p\bs{u}$. By averaging over a volume $V$ and over
+a time interval $[t_n,t_{n+1}]$, we get:
+\begin{equation}
+  V\frac{\Delta \la U\ra}{\Delta t} = -\int_S\la \bs{F} \ra \cdot \bs{n} d\br.
+\end{equation}
 
-\section{State-of-the-art codes}
+\subsubsection{WENO}
+
+\chapter{Tests}
+
+\chapter{State-of-the-art codes}
+
+\chapter{Project}
+artificial viscosity+entropy, JFNK, AMR, Sn, RK methods
 
 \end{document}
