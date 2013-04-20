@@ -50,7 +50,7 @@ First, we start with hydrodynamic equations.
 We want to solve the Euler equations:
 \begin{align}
   &\frac{\partial \rho}{\partial t} + \bn (\rho \bs{u}) = 0 \label{mass},\\
-  &\frac{\partial \rho \bs{u}}{\partial t} + \bn (\rho\bs{u}\bs{u}) + \bn p =
+  &\frac{\partial \rho \bs{u}}{\partial t} + \bn (\rho\bs{u}\otimes\bs{u}) + \bn p =
   F \label{momentum},\\
   &\frac{\partial}{\partial t}\(\rho e +\frac{1}{2}\rho u^2\) +
   \bn\(\rho\bs{u}e + \frac{1}{2}\rho \bs{u} u^2+p\bs{u}\) = \rho q +\bs{u}F
@@ -61,7 +61,7 @@ where:
   \item $\rho$ is the density,
   \item $t$ is the time,
   \item $\bs{u}$ is the speed,
-  \item $\bs{u}\bs{u}$ is a tensor, the divergence is taken by assigning first
+  \item $\bs{u}\otimes\bs{u}$ is a tensor, the divergence is taken by assigning first
   1 to the second index, and forming the ordinary divergence of
   $\rho\bs{u}u_1$, then repeating for index 2 and index 3,
   \item $p$ is the pressure,
@@ -106,14 +106,14 @@ Equations for the Lagrangian step:
 \begin{align}
   &\frac{\partial \rho}{\partial t} = -\bn (\rho \bs{u}),\\
   &\frac{\partial \rho \bs{u}}{\partial t} = -\bn p - \bn(\rho
-  \bs{u}\bs{u}),\\
+  \bs{u}\otimes\bs{u}),\\
   &\frac{\partial \rho e}{\partial t} = -p\bn\bs{u} - \bn (\rho e \bs{u})
   \label{3.22}.
 \end{align}
 Equations for the advection step:
 \begin{align}
   &\frac{d}{dt}(\rho V) = -\int_S \rho \bs{u}d\br,
-  &\frac{d}{dt}(\rho \bs{u}V') = -\int_{S'} \rho \bs{u}\bs{u} d\br,
+  &\frac{d}{dt}(\rho \bs{u}V') = -\int_{S'} \rho \bs{u}\otimes\bs{u} d\br,
   &\frac{d}{dt}(\rho e V) = -\int_S \rho \bs{u}e d\br.
 \end{align}
 $V$ is a zonal volume and $V'$ is a dual zone volume, since the velocity
@@ -134,14 +134,42 @@ a time interval $[t_n,t_{n+1}]$, we get:
 \begin{equation}
   V\frac{\Delta \la U\ra}{\Delta t} = -\int_S\la \bs{F} \ra \cdot \bs{n} d\br.
 \end{equation}
-
-\subsubsection{WENO}
+The expression $\la U \ra$ represents the zone average $U$ at the beginning
+and the end of the time step; these are our unknowns. The quantity  $\la
+\bs{F} \ra \cdot \bs{n}$ represents the flux of a conserved quantity through
+the edge of a zone averaged over the time step. If we can construct accurate
+values of these edge fluxes from the beginning-of-step values of $\la U \ra$,
+then the advanced values follow immediately. From the components of $U$ it is
+simple arithmetic to find $\bs{u}$ and $e$, and then the pressure can be
+calculated. At the beginning of the time step we imagine that each zone is
+uniform, with its average fluid quantities $\rho$, $\bs{u}$, and $p$. At an
+interface between two zones there will thus be a discontinuity. The name for
+the situation in which two regions of constant fluid properties meet at a
+discontinuity is a Riemann problem. At the next instant this discontinuity
+will be resolved into a pair of shocks, a shock and a rarefaction wave, or two
+rarefaction waves, one traveling into each of the two zones. At the material
+interface, which at the beginning of the time step coincides with the zone
+boundary, there will be continuous values of pressure and velocity. Godunov's
+method is to use these conditions, derived from the solution of the Riemann
+problem, to evaluate the edge fluxes, them to use the conservation law to
+update the conserved quantities to the next time step.
+\subsubsection{WENO, TVD, TVB}
+\begin{description}
+  \item[WENO] stands for weighted essentially non-oscillatory. WENO consists
+  of having different discretizations of the same cells and using a linear
+  combination of them to have a non-oscillatory solution.
+  \item[TVD] stands for total variation diminishing. It means the spatial
+  fluctuation in the end of the time step cannot be larger than it was at the
+  beginning of the time step.
+  \item[TVB] stands for total variation bounded. It means that, while the
+  fluctuation may grow, it will always be less than some fixed bound.
+\end{description}
 
 \chapter{Tests}
 
 \chapter{State-of-the-art codes}
 
 \chapter{Project}
-artificial viscosity+entropy, JFNK, AMR, Sn, RK methods
+entropy viscosity, JFNK, AMR, Sn, (SD(I))RK methods
 
 \end{document}
