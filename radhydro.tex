@@ -165,6 +165,55 @@ update the conserved quantities to the next time step.
   fluctuation may grow, it will always be less than some fixed bound.
 \end{description}
 
+\section{Radiative transfer}
+The equation is the ''usual'' equation:
+\begin{equation}
+  \frac{1}{c}\frac{\partial I}{\partial t} + \bo\cdot \bn I + \Sigma_t I =
+  \int_{4\pi} \Sigma_s(\bo\cdot\bo') I\ d\bo' + Q,
+\end{equation}
+with $I$ is the intensity. Instead of using the energy as variable, we use the
+frequency $\nu$.  We also define:
+\begin{itemize}
+  \item the energy density:
+  \begin{equation}
+    E = \frac{1}{c}\int_{4\pi} I\ d\bo.
+  \end{equation}
+  \item the flux:
+  \begin{equation}
+    \bs{F} = \int_{4\pi} \bo I\ d\bo.
+  \end{equation}
+  \item the pressure:
+  \begin{equation}
+    P = \frac{1}{c}\int_{4\pi}\bo\bo I\ d\bo.
+  \end{equation}
+\end{itemize}
+
+\section{Radiative hydrodynamic}
+\subsection{Coupling terms in Euler's equation}
+First, we need to define:
+\begin{align}
+  &g^0 = \int d\nu\int_{4\pi} d\bo (S-\Sigma_a I),\\
+  &\bs{g} = \frac{1}{c}\int d\nu \int_{4\pi} d\bo \bo(S-\Sigma_a I).
+\end{align}.
+We should put the negatives of these on the right-hand side of the material
+energy and momentum equations:
+\begin{align}
+  &\frac{\partial}{\partial t}\(\rho e + \frac{1}{2}\rho u^2\) + \bn \(\rho
+  \bs{u} e + \frac{1}{2} \rho \bs{u}u^2\) = - g^0,\\
+  & \frac{\partial \rho \bs{u}}{\partial t} + \bn(\rho\bs{u}\otimes\bs{u})+
+  \bn p = 0\bs{g}.
+\end{align}
+We have left out the nonradiative body force and heat deposition terms for
+simplicity. Summing the frequency-integrated radiation moment equations and
+the material equations gives the overall conservation laws:
+\begin{align}
+  &\frac{\partial}{\partial t}\(\rho e + E + \frac{1}{2}\rho u^2\) + \bn \(\rho
+  \bs{u} e + \frac{1}{2} \rho \bs{u}u^2 + \bs{F}\) = 0,\\
+  & \frac{\partial}{\partial t}\(\rho \bs{u} + \frac{\bs{F}}{c^2}\) +
+  \bn(\rho\bs{u}\otimes\bs{u}+ P) + \bn p = 0.
+\end{align}
+
+
 \chapter{Tests}
 
 \chapter{State-of-the-art codes}
