@@ -187,6 +187,77 @@ frequency $\nu$.  We also define:
     P = \frac{1}{c}\int_{4\pi}\bo\bo I\ d\bo.
   \end{equation}
 \end{itemize}
+\subsection{Comoving frame}
+We use the following definition:
+\begin{equation}
+  \Sigma_a = k_{\nu}
+\end{equation}
+Doppler and aberration relations:
+\begin{align}
+  \nu &= \nu_{(0)} \gamma_u \(1+\frac{\bo_{(0)}\cdot \bs{u}}{c}\),\\
+  \bo &= \frac{\gamma_u\frac{\bs{u}}{c}+\bo_{(0)}+(\gamma_u-1)(\bo_{(0)}\cdot
+  \bs{u})\bs{u}/u^2}{\gamma_u(1+\bo_{(0)}\cdot \bs{u}/c)},
+\end{align}
+where $\gamma_u = \frac{1}{\sqrt{1-\frac{u^2}{c^2}}}$. A fixed $\bs{r}_0$ is 
+moving with the velocity $\bs{u}$ in the $(t,\bs{r})$ coordinates. For small 
+values of the relative velocity $\bs{u}$ of the two frames these relations
+simplify considerably. In that case we can neglect all the $u^2/c^2$ terms,
+which means that $\gamma_u$ can be replaced by 1. Therefore:
+\begin{align}
+  \nu &= \nu_{(0)}\(1+\frac{\bo_{(0)}\cdot \bs{u}}{c}\),\\
+  \bo &= \frac{\bo_{(0)} + \bs{u}/c}{1+\bo_{(0)}\cdot \bs{u}/c}.
+\end{align}
+Discarding all the terms that are $O(u^2/c^2)$ or higher. This result is
+obtained:
+\begin{equation}
+  \begin{split}
+    &\(1+\frac{\bo_{(0)}}{c}\cdot\bs{u}\)\(\frac{1}{c} \frac{\partial
+    I^{(0)}}{\partial t}+\frac{\bs{u}}{c}\cdot\bn I^{(0)}\) + \bo_{(0)} \cdot \bn
+    I^{(0)}\\
+    &-\frac{\nu_{(0)}}{c}\(\frac{\bs{a}}{c}+\bo_{(0)}\cdot\bn\bs{u}\) \cdot
+    \bn_{\nu_{(0)}\bo_{(0)}}I^{(0)}\\
+    &+\frac{3}{c}\(\frac{\bo_{(0)}\cdot\bs{a}}{c} + \bo_{(0)}\cdot \bn
+    \bs{u}\cdot \bo_{(0)}\) I^{(0)} = j^{(0)} - k^{(0)}I^{(0)}.
+  \end{split}
+  \label{6.39}
+\end{equation}
+For simplicity here and below, the subscripts indicating that all the
+frequency-dependent quantities in the comoving frame are evaluated at
+$\nu_{(0)}$ have been omitted. There are two features of this equation in
+which we should comment first. The term $\bo_{(0)}\cdot \bs{u}/c$ in the
+coefficient of the first term would go away if the transformation from the
+fixed frame to the comoving frame had really been a Lorentz transformation,
+since a spatial derivative at constant time in the fixed frame owing to the
+relativity of time. But we are not altering the time coordinate in our
+procedure, so this term is left over. The terms involving the acceleration,
+$\bs{a}$, arise from $\frac{\partial \bs{u}}{\partial t}$. The actual
+acceleration is $\frac{\partial \bs{u}}{\partial t} + \bs{u}\cdot\bn\bs{u}$,
+of course, so we might wonder about the other piece. But the extra parts would
+bring in terms that are of order $u^2/c^2$, and all such terms have been
+discarded. It is our opinion that the acceleration terms, as well as the
+$\bo_{(0)}\cdot \frac{\bs{u}}{c}$ part of the coefficient of the first term
+should be discarded. The reasoning is as follows. In a fluid flow problem the
+time derivative and the flow derivative $\bs{u}\cdot\bn$ are generally of the
+same order of magnitude. If the acceleration terms above are ordered in this
+way then all of them are seen to be of order $u^2/c^2$ compared with the
+dominant terms, and may be discarded. The same is true of the
+$\bo_{(0)}\cdot\frac{\bs{u}}{c}$ term multiplying $\frac{\partial
+I^{(0)}}{\partial t}$.
+
+We suggest that \cref{6.39} be retained for those problems involving
+nonrelativistic velocities that evolve on a light-transit scale, and we
+simplify this equation by dropping the subject the subject terms for problems
+with the fluid-flow time scale. Carrying out the simplification leads to:
+\begin{equation}
+  \begin{split}
+    &\frac{1}{c}\frac{D I^{(0)}}{Dt} +\bo_{(0)}\cdot\bn
+    I^{(0)}-\frac{\nu_{(0)}}{c}\bo_{(0)}\cdot\bn\bs{u}\cdot
+    \bn_{\nu_{(0)}\bo_{(0)}}I^{(0)}\\
+    &+\frac{3}{c}\bo_{(0)}\cdot\bn\bs{u}\cdot\bo_{(0)}I^{(0)} =
+    j^{(0)}-k^{(0)}I^{(0)}
+  \end{split}
+\end{equation}
+where $\frac{D}{Dt}=\frac{\partial}{\partial t}+\bs{u}\cdot\bn$.
 
 \section{Radiative hydrodynamic}
 \subsection{Coupling terms in Euler's equation}
@@ -213,6 +284,43 @@ the material equations gives the overall conservation laws:
   \bn(\rho\bs{u}\otimes\bs{u}+ P) + \bn p = 0.
 \end{align}
 
+\subsection{Comoving frame}
+$g^0$ and $\bs{g}$ are exactly as given earlier. The Lorentz transformation to
+first order in $u/c$ is:
+\begin{align}
+  &g^0 = g_{(0)}^0 + \frac{\bs{u}}{c^2}\cdot \bs{g}_{(0)}, \label{6.35}\\
+  &\bs{g} = \bs{g}_{(0)} + \bs{u} g_{(0)}^0. \label{6.36}
+\end{align}
+The second term on the right-hand side of the $\bs{g}$ equation is another of
+those pesky ones that does not have an analog in nonrelativistic mechanics. It
+comes about because the addition of energy increase the relativistic mass
+density and therefore also the relativistic momentum density. When we treat
+the material fluid nonrelativistically there is no similar term in the
+material density. When we treat the material fluid nonrelativistically there
+is no similar term in the material momentum equation to compensate this one.
+Fortunately, it is small and we can discard it or hide it somewhere. The
+velocity term in the $g^0$ equation does have a nonrelativistic meaning. It is
+the rate of doing work by the force exerted on the radiation by the matter.
+The components of $g^{\mu}$ in the fluid frame are easily found from the
+atomic properties of the matter, without the need for Doppler and aberration
+transformations. Furthermore, we can almost always assume isotropy of the
+absorptivity and emissivity in the fluid frame. With that assumption, we
+obtain:
+\begin{align}
+  &g_{(0)}^0 = \int d\nu\ \(4\pi
+  j_{\nu}^{(0)}-\Sigma_{a,\nu}^{(0)}cE_{\nu}^{(0)}\), \label{6.37}\\
+  &\bs{g}_{(0)} = -c \int d\nu\ \Sigma_{a,\nu}^{(0)}\bs{F}_{\nu}^{(0)}.
+  \label{6.38} 
+\end{align}
+These are the same expressions that we used for the right-hand sides of the
+fixed frame movement equations earlier, only repeated here using the
+fluid-frame absorptivity and emissivity and the fluid-frame radiation moments.
+The important difference is that the earlier fixed-frame expressions are wrong
+if there is an appreciable velocity while the fluid-frame expressions are
+correct as long as the velocity is non-relativistic. The components $g^0$ and
+$\bs{g}$ obtained by substituting \cref{6.37,6.38} into \cref{6.35,6.36} give
+the correct quantities to put in the right-hand sides of the fixed-frame
+moments equations.
 
 \chapter{Tests}
 
