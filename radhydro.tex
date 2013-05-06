@@ -64,8 +64,8 @@ where:
   \item $t$ is the time,
   \item $\bs{u}$ is the speed,
   \item $\bs{u}\otimes\bs{u}$ is a tensor, the divergence is taken by assigning first
-  1 to the second index, and forming the ordinary divergence of
-  $\rho\bs{u}u_1$, then repeating for index 2 and index 3,
+    1 to the second index, and forming the ordinary divergence of
+    $\rho\bs{u}u_1$, then repeating for index 2 and index 3,
   \item $p$ is the pressure,
   \item $F$ is a body force,
   \item $e$ is the internal energy,
@@ -79,15 +79,15 @@ conduction. These equations allow shocks.
 Major discretizations:
 \begin{description}
   \item[Lagrangian:] the mesh follows the material. This is very efficient in
-  one dimension but for multidimensional problems, the mesh can be too
-  distorted and new it is necessary to remesh the domain.
+    one dimension but for multidimensional problems, the mesh can be too
+    distorted and new it is necessary to remesh the domain.
   \item[Eulerian:] the mesh is fixed at the beginning of the calculation.
-  Adaptive Mesh Refinement (AMR) is often necessary to have an accurate
-  results.
+    Adaptive Mesh Refinement (AMR) is often necessary to have an accurate
+    results.
   \item[Arbitrary Lagrangian-Eulerian (ALE):] the mesh moves at a given speed.
   \item[Smoothed particle hydrodynamics (SPH):] there is no mesh. SPH looks
-  like a Monte-Carlo method but initial particles are not selected randomly.
-  The method is first order.
+    like a Monte-Carlo method but initial particles are not selected randomly.
+    The method is first order.
 \end{description}
 In the rest of this paper, we will focus on Eulerian discretization.
 \subsubsection{Lagrangian plus advection}
@@ -158,13 +158,13 @@ update the conserved quantities to the next time step.
 \subsubsection{WENO, TVD, TVB}
 \begin{description}
   \item[WENO] stands for weighted essentially non-oscillatory. WENO consists
-  of having different discretizations of the same cells and using a linear
-  combination of them to have a non-oscillatory solution.
+    of having different discretizations of the same cells and using a linear
+    combination of them to have a non-oscillatory solution.
   \item[TVD] stands for total variation diminishing. It means the spatial
-  fluctuation in the end of the time step cannot be larger than it was at the
-  beginning of the time step.
+    fluctuation in the end of the time step cannot be larger than it was at the
+    beginning of the time step.
   \item[TVB] stands for total variation bounded. It means that, while the
-  fluctuation may grow, it will always be less than some fixed bound.
+    fluctuation may grow, it will always be less than some fixed bound.
 \end{description}
 
 \section{Radiative transfer}
@@ -177,17 +177,17 @@ with $I$ is the intensity. Instead of using the energy as variable, we use the
 frequency $\nu$.  We also define:
 \begin{itemize}
   \item the energy density:
-  \begin{equation}
-    E = \frac{1}{c}\int_{4\pi} I\ d\bo.
-  \end{equation}
+    \begin{equation}
+      E = \frac{1}{c}\int_{4\pi} I\ d\bo.
+    \end{equation}
   \item the flux:
-  \begin{equation}
-    \bs{F} = \int_{4\pi} \bo I\ d\bo.
-  \end{equation}
+    \begin{equation}
+      \bs{F} = \int_{4\pi} \bo I\ d\bo.
+    \end{equation}
   \item the pressure:
-  \begin{equation}
-    P = \frac{1}{c}\int_{4\pi}\bo\bo I\ d\bo.
-  \end{equation}
+    \begin{equation}
+      P = \frac{1}{c}\int_{4\pi}\bo\bo I\ d\bo.
+    \end{equation}
 \end{itemize}
 
 \subsection{Comoving frame: transport equation}
@@ -265,31 +265,31 @@ where $\frac{D}{Dt}=\frac{\partial}{\partial t}+\bs{u}\cdot\bn$.
 Common-sense summary:
 \begin{itemize}
   \item Ignoring the Doppler effect entirely and using the fixed-frame
-  transport equation with the absorptivity and emissivity appropriate for
-  matter at rest gives the wrong answer for the radiation when the velocity is
-  supersonic and spectral  lines dominate the opacity, and it also makes a
-  significant error in the energy coupling rate of radiation and matter.
+    transport equation with the absorptivity and emissivity appropriate for
+    matter at rest gives the wrong answer for the radiation when the velocity is
+    supersonic and spectral  lines dominate the opacity, and it also makes a
+    significant error in the energy coupling rate of radiation and matter.
   \item \Cref{6.35,6.36} have to be used to get the correct coupling terms for
-  the fixed-frame equations.
+    the fixed-frame equations.
   \item The coupling term in the material internal energy equation is indeed
-  the fluid-frame energy term $g_{(0)}^0$ from \cref{6.37}, but in the
-  material total energy equation it is combined in with the work done by the
-  radiation force, which turns it into the fixed-frame energy term equation.
+    the fluid-frame energy term $g_{(0)}^0$ from \cref{6.37}, but in the
+    material total energy equation it is combined in with the work done by the
+    radiation force, which turns it into the fixed-frame energy term equation.
   \item The diffusion limit gives a Fick's law form $(\bs{F}\propto -\bn E)$
-  for the flux in the fluid frame, not the fixed frame. In the fixed frame
-  the convective flux of radiation enthalpy is added on.
+    for the flux in the fluid frame, not the fixed frame. In the fixed frame
+    the convective flux of radiation enthalpy is added on.
   \item Confusion of the correct frames for the coupling terms and the Fick's
-  law flux is more serious than the other moderate corrections the $u/c$ terms
-  give.
+    law flux is more serious than the other moderate corrections the $u/c$ terms
+    give.
   \item The velocity terms in the comoving-frame energy equation matter,
-  especially the Doppler-shift frequency-derivative term; the ones in the
-  comoving-frame momentum equation are less important.
+    especially the Doppler-shift frequency-derivative term; the ones in the
+    comoving-frame momentum equation are less important.
   \item The velocity terms in the comoving-frame energy equation matter,
-  especially the Doppler-shift frequency-derivative term; the ones in the
-  comoving-frame momentum equation are less important. The aberration
-  (angle-derivative) term in the transport equation does not survive in the
-  energy moment and dos not matter in the flux moment, so this can be dropped
-  with little consequence.
+    especially the Doppler-shift frequency-derivative term; the ones in the
+    comoving-frame momentum equation are less important. The aberration
+    (angle-derivative) term in the transport equation does not survive in the
+    energy moment and dos not matter in the flux moment, so this can be dropped
+    with little consequence.
 \end{itemize}
 
 \subsection{Comoving-frame: diffusion equation}
@@ -590,11 +590,11 @@ Resonance line scattering is a kind of inelastic scattering: a photon is
 absorbed and then, remitted. Effects important for LTE:
 \begin{description}
   \item[Spontaneous emission:] Einstein coefficients $A_{21}$. $A_{21}$
-  is the transition rate for spontaneous emission.
+    is the transition rate for spontaneous emission.
   \item[Absorption:] Einstein coefficients $B_{12}$. $B_{12}J_{\nu_0}$ is the
-  transition rate for absorption.
+    transition rate for absorption.
   \item[Stimulated emission:] Einstein coefficient $B_{21}$. $B_{21}J_{\nu_0}$
-  is the transition rate for stimulated emission.
+    is the transition rate for stimulated emission.
 \end{description}
 As a system for doing calculations, non-LTE consists of solving for the
 radiation field $I_{\nu}$ and the set of atomic occupations $N_{ij}$, also
@@ -629,6 +629,35 @@ out. The time derivative on the left turns into $\rho$ times the convective
 derivative of the atomic fraction of that element, which vanishes unless there
 is diffusion (of atoms) in the fluid.
 
+\section{Multiphysic problem}
+\subsection{Operator split}
+We want to solve the coupled system:
+\begin{align}
+  &A(y) x = b, \label{multiphysic_1}\\
+  &B(x) y = c. \label{multiphysic_2}
+\end{align}
+First, we need to fix the value of $y$ to solve:
+\begin{equation}
+  A(y^*) x = b.
+  \label{os_1}
+\end{equation}
+The solution of \cref{os_1}, $x_{sol}$ is used to solve:
+\begin{equation}
+  B(x_{sol}) y = c.
+\end{equation}
+\subsection{Newton's method}
+First, let's rewrite \cref{multiphysic_1,multiphysic_2}, as:
+\begin{equation}
+  F(z) = 0.
+  \label{multiphysic_3}
+\end{equation}
+\Cref{multiphysic_3} is a nonlinear system that can solve using Newton's
+method:
+\begin{equation}
+  J(z_n) (z_{n+1}-z_n) = -F(z_n),
+\end{equation}
+where $J$ is the Jacobian of the problem and $F(z_n)$ is the residual.
+
 \section{Other Physics}
 Other phenomena that you be taken into account: gravity, polarization, and
 magnetic field.
@@ -645,35 +674,60 @@ magnetic field.
 \section{General}
 \begin{description}
   \item[Euler equations:] discontinuous finite elements stabilized by entropy
-  viscosity.
+    viscosity.
   \item[Radiative transfer:] discontinuous finite elements, matrix-free,
-  need for fixup (?), preconditioned by (adapted ?) MIP.
+    need for fixup (?), preconditioned by (adapted?) MIP.
   \item[JFNK and operator.]
   \item[((SD)I)RK methods:] use different time discretizations for different
-  equations.
+    equations.
   \item[AMR:] one mesh per physics.
 \end{description}
 
-\section{Structure}
+\section{General structure}
 \begin{description}
   \item[Material properties:] properties from table and/or equations.
-  Different physics require different material properties.
-  \begin{table}[H]
-    \centering
-    \begin{tabular}{|c|c|c|c|c|c|c|}
-      \hline
-      Interface & \multicolumn{6}{c|}{Material Properties} \\
-      \hline
-      Base class & \multicolumn{2}{c|}{Fluid properties} &
+    Different physics require different material properties.
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        Interface & \multicolumn{6}{c|}{Material Properties} \\
+        \hline
+        Base class & \multicolumn{2}{c|}{Fluid properties} &
       \multicolumn{2}{c|}{R.T. properties} & \multicolumn{2}{c|}{Kinetic properties}
-      \\
-      \hline
-      Derived class & Table & Formula & Table & Formula & Table & Formula \\
-      \hline
-    \end{tabular}
-  \end{table}
+        \\
+        \hline
+        Derived class & Table & Formula & Table & Formula & Table & Formula \\
+        \hline
+      \end{tabular}
+    \end{table}
   \item[Time discretization:] different discretizations coded by Butcher
-  tables. Use Template.
+    tables.
+  \item[Physics:] base class for the physics: wrapper around
+    Belos::LinearProblem so that it is easy to have a matrix-free physics
+    $\rightarrow$ implement Tpetra and Belos in deal.II. Used for operator
+    split. The different physics are derived from this class.
+  \item[Radiative transfer:] derived from physics.
+  \item[Preconditioner:] base class for the preconditioners of the physics
+    problems (ex. MIP).
+  \item[Newton:] build the Jacobian or an approximation of the Jacobian if
+    necessary and perform the Newton's iterations.
+  \item[Preconditioner of the Jacobian:] preconditioner for the Jacobian.
+  \item[Parameters:] contain all the parameters of the problems.
 \end{description}
+
+\section{Detailed structure}
+\subsection{Radiative transfer material properties}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Private methods & Members \\
+    \hline
+                   &                 & $\Sigma_t$ \\
+                   &                 & $\Sigma_s$ \\
+    \hline
+  \end{tabular}
+\end{table}
 
 \end{document}
