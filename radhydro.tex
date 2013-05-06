@@ -580,11 +580,100 @@ $\bs{g}$ obtained by substituting \cref{6.37,6.38} into \cref{6.35,6.36} give
 the correct quantities to put in the right-hand sides of the fixed-frame
 moments equations.
 
+\subsection{Local Thermodynamic Equilibrium (LTE)}
+Assumptions when using Local Thermodynamic Equilibrium:
+\begin{itemize}
+  \item inhomogeneous temperature but small gradient of temperature.
+  \item thermal equilibrium for the matter only not for the radiation.
+\end{itemize}
+Resonance line scattering is a kind of inelastic scattering: a photon is
+absorbed and then, remitted. Effects important for LTE:
+\begin{description}
+  \item[Spontaneous emission:] Einstein coefficients $A_{21}$. $A_{21}$
+  is the transition rate for spontaneous emission.
+  \item[Absorption:] Einstein coefficients $B_{12}$. $B_{12}J_{\nu_0}$ is the
+  transition rate for absorption.
+  \item[Stimulated emission:] Einstein coefficient $B_{21}$. $B_{21}J_{\nu_0}$
+  is the transition rate for stimulated emission.
+\end{description}
+As a system for doing calculations, non-LTE consists of solving for the
+radiation field $I_{\nu}$ and the set of atomic occupations $N_{ij}$, also
+often called the ''populations''. Here $i$ is an index for an energy level
+belonging to that element. The set of equations that determines these are the
+transport equation, which fixes the intensity, and the atomic kinetic
+equations. The kinetic equations have this generic form:
+\begin{equation}
+  \rho\frac{D\(N_{ij}/\rho\)}{Dt} = \sum_k\(N_{ik}\(P_{kj}+C_{kj}\) - N_{ij}
+  \(P_{jk}+C_{jk}\)\).
+  \label{9.1}
+\end{equation}
+The $P$s and $C$s are rate coefficients. The $P$s in particular are radiative
+rates, such as spontaneous and stimulated decay, photoabsorption, and
+photoionization, and the $C$s are collisional rates, most commonly the ones for
+inelastic electron collisions. The elastic rates are ignored, since they do
+not change the level populations (although they count in electron impact line
+broadening). The electron rates can be expressed as $N_e$ times a collisional
+rate coefficient, and the latter is a quantity like $\la\nu\sigma_{jk}\ra$,
+where the brackets indicate an average over the electron Maxwellian
+distribution of velocities. The radiative rates are combinations of
+spontaneous downward rates, stimulated downward rates that are written as
+integrals of appropriate cross sections over the photon flux spectrum, and
+upward radiative rates that are likewise integrals of photon fluxes time cross
+sections.
+
+Every rate in \cref{9.1} appears twice, once a positive term in the equation
+for the receiving level, and a second time as a negative term in the equation
+for the originating level. As a result, if all the equations for the levels
+of alls the ions of one element are added up, everything in the sum cancels
+out. The time derivative on the left turns into $\rho$ times the convective
+derivative of the atomic fraction of that element, which vanishes unless there
+is diffusion (of atoms) in the fluid.
+
+\section{Other Physics}
+Other phenomena that you be taken into account: gravity, polarization, and
+magnetic field.
+
 \chapter{Tests}
+\section{Marshak wave}
+\section{I-front}
+\section{Radiating shock waves}
 
 \chapter{State-of-the-art codes}
 
 \chapter{Project}
-entropy viscosity, JFNK, AMR, Sn, (SD(I))RK methods, code structure
+
+\section{General}
+\begin{description}
+  \item[Euler equations:] discontinuous finite elements stabilized by entropy
+  viscosity.
+  \item[Radiative transfer:] discontinuous finite elements, matrix-free,
+  need for fixup (?), preconditioned by (adapted ?) MIP.
+  \item[JFNK and operator.]
+  \item[((SD)I)RK methods:] use different time discretizations for different
+  equations.
+  \item[AMR:] one mesh per physics.
+\end{description}
+
+\section{Structure}
+\begin{description}
+  \item[Material properties:] properties from table and/or equations.
+  Different physics require different material properties.
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+      \hline
+      Interface & \multicolumn{6}{c|}{Material Properties} \\
+      \hline
+      Base class & \multicolumn{2}{c|}{Fluid properties} &
+      \multicolumn{2}{c|}{R.T. properties} & \multicolumn{2}{c|}{Kinetic properties}
+      \\
+      \hline
+      Derived class & Table & Formula & Table & Formula & Table & Formula \\
+      \hline
+    \end{tabular}
+  \end{table}
+  \item[Time discretization:] different discretizations coded by Butcher
+  tables. Use Template.
+\end{description}
 
 \end{document}
