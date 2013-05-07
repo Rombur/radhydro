@@ -31,11 +31,9 @@
     \end{table}
   \item[Time discretization:] different discretizations coded by Butcher
     tables.
-  \item[Physics:] base class for the physics: wrapper around
-    Belos::LinearProblem so that it is easy to have a matrix-free physics
-    $\rightarrow$ implement Tpetra and Belos in deal.II. Used for operator
-    split. The different physics are derived from this class.
-  \item[Radiative transfer:] derived from physics.
+  \item[Operator Split:] Solve multiphysics problem using operator split.
+  \item[Radiative transfer:] derived from Belos::Operator because it is matrix
+    free.
   \item[Preconditioner:] base class for the preconditioners of the physics
     problems (ex. MIP).
   \item[Newton:] build the Jacobian or an approximation of the Jacobian if
@@ -45,6 +43,25 @@
 \end{description}
 
 \section{Detailed structure}
+
+\subsection{Material properties}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Private methods & Members \\
+    \hline
+    Get\_fluid\_properties    & Read\_fluid\_data & *Fluid material properties \\
+    Get\_radtrans\_properties & Read\_radtrans\_data & *Radiative transfer material properties \\
+    Get\_kinetic\_properties  & Read\_kinetic\_data & *Kinetic material
+    properties \\
+    Read\_data & & \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{Fluid material properties}
+
 \subsection{Radiative transfer material properties}
 \begin{table}[H]
   \centering
@@ -52,9 +69,109 @@
     \hline
     Public methods & Private methods & Members \\
     \hline
-                   &                 & $\Sigma_t$ \\
-                   &                 & $\Sigma_s$ \\
+    Get\_$\Sigma_t$ & Compute\_diffusion\_coefficient & $\Sigma_t$ \\
+    Get\_$\Sigma_s$ & Compute\_$\Sigma_a$ & $\Sigma_s$ \\
+    Get\_source     & Compute\_xs         & source \\   
+    Set\_source     &                     & diffusion\_coefficient \\
+    Get\_diffusion\_coefficient &         & $\Sigma_a$ \\
     \hline
   \end{tabular}
 \end{table}
 
+\subsection{Kinetic material properties}
+
+\subsection{Time discretization}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Private methods & Members \\
+    \hline
+    Get\_time\_step & Compute\_time\_step & name of ((SD(I))RK) \\
+    Get\_weight     &                     & Butcher\_tableau    \\
+    Get\_nodes      &                     & time\_ step         \\
+    \hline
+  \end{tabular}
+\end{table}  
+
+\subsection{Radiative transfer}
+Derived from Belos::Operator. 
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Private methods & Members \\
+    \hline
+    Apply                       & Get\_saf   & communicator \\
+    HasApplyTranspose           & Store\_saf & map\\
+    Compute\_scattering\_source & Update\_saf & saf \\
+    Sweep                       & Compute\_error & scattering\_src \\
+    Refine\_mesh                & & radiative transfer material properties \\
+                                & & quadrature \\
+                                & & dof\_handler \\
+                                & & triangulation \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{Quadrature}
+Base class for the quadratures used by the radiative transfer.
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Protected methods & Members \\
+    \hline
+    Build\_quadrature & Build\_octant      & galerkin \\
+          Get\_n\_dir & Deploy\_octant          & sn \\
+          Get\_n\_mom & Compute\_harmonics & L\_max \\
+           Get\_omega &                         & n\_dir \\
+             Get\_M2D &                         & weight \\
+             Get\_D2M &                         & M2D \\
+                      &                         & D2M \\
+                      &                         & omega \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{Level Symmetric quadrature}
+Class derived from quadrature.
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Private methods & Members \\
+    \hline
+    & Build\_octant  & \\
+    & Compute\_omega & \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{Gauss-Legendre-Chebyshev quadrature}
+Class derived from quadrature.
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Private methods & Members \\
+    \hline
+    & Build\_octant & \\
+    & Build\_Chebyshev\_quadrature & \\
+    \hline
+  \end{tabular}
+\end{table} 
+
+\subsection{Operator split}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Private methods & Members \\
+    \hline
+    Solve & Solve\_fluid & \\
+          & Solve\_radtrans & \\
+          & Solve\_kinetic & \\
+    \hline
+  \end{tabular}
+\end{table}
