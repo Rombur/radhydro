@@ -1,0 +1,60 @@
+\chapter{Project}
+\section{General}
+\begin{description}
+  \item[Euler equations:] discontinuous finite elements stabilized by entropy
+    viscosity.
+  \item[Radiative transfer:] discontinuous finite elements, matrix-free,
+    need for fixup (?), preconditioned by (adapted?) MIP.
+  \item[JFNK and operator.]
+  \item[((SD)I)RK methods:] use different time discretizations for different
+    equations.
+  \item[AMR:] one mesh per physics.
+\end{description}
+
+\section{General structure}
+\begin{description}
+  \item[Material properties:] properties from table and/or equations.
+    Different physics require different material properties.
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        Interface & \multicolumn{6}{c|}{Material Properties} \\
+        \hline
+        Base class & \multicolumn{2}{c|}{Fluid properties} &
+      \multicolumn{2}{c|}{R.T. properties} & \multicolumn{2}{c|}{Kinetic properties}
+        \\
+        \hline
+        Derived class & Table & Formula & Table & Formula & Table & Formula \\
+        \hline
+      \end{tabular}
+    \end{table}
+  \item[Time discretization:] different discretizations coded by Butcher
+    tables.
+  \item[Physics:] base class for the physics: wrapper around
+    Belos::LinearProblem so that it is easy to have a matrix-free physics
+    $\rightarrow$ implement Tpetra and Belos in deal.II. Used for operator
+    split. The different physics are derived from this class.
+  \item[Radiative transfer:] derived from physics.
+  \item[Preconditioner:] base class for the preconditioners of the physics
+    problems (ex. MIP).
+  \item[Newton:] build the Jacobian or an approximation of the Jacobian if
+    necessary and perform the Newton's iterations.
+  \item[Preconditioner of the Jacobian:] preconditioner for the Jacobian.
+  \item[Parameters:] contain all the parameters of the problems.
+\end{description}
+
+\section{Detailed structure}
+\subsection{Radiative transfer material properties}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Private methods & Members \\
+    \hline
+                   &                 & $\Sigma_t$ \\
+                   &                 & $\Sigma_s$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
