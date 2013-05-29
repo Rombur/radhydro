@@ -10,6 +10,20 @@
     equations.
   \item[AMR:] one mesh per physics.
 \end{description}
+Usually implicit and explicit schemes are used together to decrease the
+complexity of the computation. However, we need to be very careful if we want
+to keep high order accuracy. 
+
+In a Krylov linear solver the solution is built from a linear combination of
+matrix vector products:
+\begin{equation}
+  \delta \bs{x}^k = \sum_{j=0}^{l-1} \alpha_j \bs{J}^j \bs{r}_0,
+\end{equation}
+where $\bs{r}_0$ is the initial residual to the linear problem, the
+$\alpha_j$'s are the coefficients constructed by the Krylov methods, and $l$
+is the number of Krylov iterations. \emph{Maybe just look in which cells the
+residual is big and just compute the Jacobian for these cells. If the material
+properties do not change to much, keep part of the previous Jacobian.}
 
 \section{General structure}
 \begin{description}
@@ -61,6 +75,16 @@
 \end{table}
 
 \subsection{Fluid material properties}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Private methods & Members \\
+    \hline
+     & & \\
+    \hline
+  \end{tabular}
+\end{table}
 
 \subsection{Radiative transfer material properties}
 \begin{table}[H]
@@ -79,6 +103,16 @@
 \end{table}
 
 \subsection{Kinetic material properties}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Private methods & Members \\
+    \hline
+     & & \\
+    \hline
+  \end{tabular}
+\end{table}
 
 \subsection{Time discretization}
 \begin{table}[H]
@@ -94,6 +128,30 @@
   \end{tabular}
 \end{table}  
 
+\subsection{Euler equations}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Private methods & Members \\
+    \hline
+     & & \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{Kinetic equations}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Private methods & Members \\
+    \hline
+     & & \\
+    \hline
+  \end{tabular}
+\end{table}
+
 \subsection{Radiative transfer}
 Derived from Belos::Operator. 
 \begin{table}[H]
@@ -103,10 +161,10 @@ Derived from Belos::Operator.
     Public methods & Private methods & Members \\
     \hline
     Apply                       & Get\_saf   & communicator \\
-    HasApplyTranspose           & Store\_saf & map\\
+    HasApplyTranspose           & Store\_saf & map \\
     Compute\_scattering\_source & Update\_saf & saf \\
-    Sweep                       & Compute\_error & scattering\_src \\
-    Refine\_mesh                & & radiative transfer material properties \\
+    Sweep                       & & scattering\_src \\
+                                & & radiative transfer material properties \\
                                 & & quadrature \\
                                 & & dof\_handler \\
                                 & & triangulation \\
@@ -122,7 +180,7 @@ Base class for the quadratures used by the radiative transfer.
     \hline
     Public methods & Protected methods & Members \\
     \hline
-    Build\_quadrature & Build\_octant      & galerkin \\
+    Build\_quadrature & Build\_octant           & galerkin \\
           Get\_n\_dir & Deploy\_octant          & sn \\
           Get\_n\_mom & Compute\_harmonics & L\_max \\
            Get\_omega &                         & n\_dir \\
@@ -169,9 +227,30 @@ Class derived from quadrature.
     \hline
     Public methods & Private methods & Members \\
     \hline
-    Solve & Solve\_fluid & \\
+    Solve & Solve\_fluid    & flux\_moment \\
           & Solve\_radtrans & \\
-          & Solve\_kinetic & \\
+          & Solve\_kinetic  & \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{Mesh}
+Create a namespace.
+\begin{itemize}
+  \item Mesh\_refinement
+  \item Compute\_error (we don't want to use the Kelly Estimator for DG)
+  \item Project\_on\_mesh (need to project on different mesh because of
+    refinement/different physics)
+\end{itemize}
+
+\subsection{Output}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Public methods & Private methods & Members \\
+    \hline
+    Write\_output & & \\
     \hline
   \end{tabular}
 \end{table}
