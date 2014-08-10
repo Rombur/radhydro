@@ -1,0 +1,42 @@
+Simulating Cosmological Evolution with Enzo: 
+	implicit coupling radiation hydrodynamics -> numerical stability and high-order time discretization. Since
+	this  coupling results in an nonlinear system of partial differential equations that must be solved at each 
+	time step -> use Inexact Newton Methods (but for diffusion equation!).
+
+Enzo+Moray: Radiation Hydrodynamics Adaptive MeshRefinement Simulations with Adaptive Ray Tracing:
+	HII region from Stromgren. Regular Methods: moments methods (like P1 -> diffusive) or ray tracing. When 
+	using ray tracing, use operator split. Need smaller time step for radiative transfer than for hydrodynamics.
+	Different methods to choose the time step. Look for the tests in that paper.
+	
+International Journal of High Performance Computing Applications: link between Jacobian and Schur complement. Look
+ 	nonlinear Schwarz. Multirate methods are methods that use the same scheme in each partition but with different
+ 	time step. An IMEX method is partitioned method that uses an implicit integrator on one partition and an explicit
+ 	integrator on the other. Therefore, an optimal trade-off between efficiency and stability becomes possible.
+ 	Moreover, it iss generally desirable to use an explicit integrator when nonlinear or non-differentiable spatial
+ 	discretizations are used, such as shock resolving schemes. The efficiency advantage of IMEX schemes increases 
+ 	with temporal discretizations order. Given a timestep selected for accuracy, in terms where the timestep is below 
+ 	the timestep is below the stability limei, explicit integration is employed for efficiency, and in terms where 
+ 	the stability is limiting, implicit integration is employed. IMEX used in RHD!!! see doc. Use different time step 
+ 	depending on the refinement. Advantage of fully implicit: high-order. Otherwise stuck at first/second order.
+ 	
+Properties of the implicitly time-differenced equations of thermal radiation transport: need to use almost fully implicit
+	(only opacity can be computed explicitly) to obtain physical results.
+	
+Nonlinear Evolution of Rayleigh-Taylor Instability in a Radiation-Supported Atmosphere: to study Rayleigh-Taylor 
+	instability, need to have gravity.
+	
+Issues  wit high-resolution Godunov methods for radiation hydrodynamics: Attention one term (F dot nabla v) that is 
+	small in streaming and diffusion is not in intermediate -> too much simplification in Mihalas and Mihalas. For 
+	small v/c and when the length scale of interest is much larger than photon mean-free-path, the RHD equations 
+	can be accurately modeled by the equilibrium diffusion limit.
+	
+Cosmological Radiative Transfer Comparison Project II: The Radiation-Hydrodynamic Tests: look for tests.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+The Los Alamos Supernova Light-Curve Project: Computational Methods: supernovae needs SN. Models with full HD are 
+	required where radiation plays an important role in the hydrodynamics, such as where shock heating is important
+	in deterimining the temperature profile. Non-LTE effects become more significant at late times in supernovae. 
+	Opacities http://aphysics2.lanl.gov/opacity/lanl/
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Look at stellar interiors and radiation-dominated shocks (Krumholz et al. 2007)
