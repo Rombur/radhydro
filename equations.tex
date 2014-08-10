@@ -1,8 +1,28 @@
 \chapter{Equations}
 In this section, we will develop the equations for radiation hydrodynamics and
-their discretization.
+their discretization but first, we will introduce the hyperbolic equations.
+\section{Hyperbolic equations} \label{hyperbolic_equations}
+In this section, $q(x,t)$ denotes a generic function. A linear equation:
+\begin{equation}
+  \frac{\partial q}{\partial t} + A \frac{\partial q}{\partial x}  = 0,
+\end{equation}
+is called hyperbolic if $A$ has real eigenvalues and is diagonalizable. The
+nonlinear equation:
+\begin{equation}
+  \frac{\partial q}{\partial t} + \frac{\partial f(q)}{\partial x} =0
+\end{equation}
+where $f(q)$ is the flux function, is called hyperbolic if the Jacobian matrix,
+$\frac{\partial f_i}{\partial q_j}$, is diagonalizable with eigenvalues for each
+value $q$ of physical interest.
+
+In general, the equality:
+\begin{equation}
+  \frac{\partial q}{\partial t} + \frac{\partial}{\partial x}\frac{1}{2} q^2 =
+  \frac{\partial q}{\partial t} + q \frac{\partial q}{\partial x}
+\end{equation}
+does not hold. The reason being the nonlinearities introduced by shocks.
+
 \section{Hydrodynamic}
-First, we start with hydrodynamic equations.
 \subsection{Continuous equations}
 We want to solve the Euler equations:
 \begin{align}
@@ -110,7 +130,32 @@ boundary, there will be continuous values of pressure and velocity. Godunov's
 method is to use these conditions, derived from the solution of the Riemann
 problem, to evaluate the edge fluxes, them to use the conservation law to
 update the conserved quantities to the next time step.
+\subsubsection{RSA (Reconstruct-Solve-Average)}
+Using the same notations as \cref{hyperbolic_equations}, the RSA algorithm is
+described by:
+\begin{enumerate}
+  \item Reconstruct a function $\tilde{q}^n(x,t_n)$ defined for all $x$ from the
+    cell average $Q_i^n$.
+  \item Solve the hyperbolic equation with this initial data to obtain
+    $\tilde{q}^n(x,t_{n+1})$.
+  \item Average this function over each grid cell to obtain:
+    \begin{equation}
+      Q_i^{n+1} = \frac{1}{h}\int_{K_i} \tilde{q}^n(x,t_{n+1}) dx.
+    \end{equation}
+\end{enumerate}
+This algorithm can be used to create higher-order methods. However, 
+second- (or higher-) order methods oscillates and a limiter needs to be used.
+The RSA algorithm can also be used to describe Godunov's method. In this case,
+$\tilde{q}^n(x,t_n)$ is piecewise constant function with value $Q_i^n$ in cell
+$K_i$.
 \subsubsection{WENO, TVD, TVB}
+The total variation is defined by:
+\begin{equation}
+  TV(Q) = \sum_{i=-\infty}^{\infty} |Q_i - Q_{i-1}|.
+\end{equation}
+The true solution of an advection problem without source has $TV=cst$.
+Numerically, this is not possible. Therefore, the total variation diminishes
+$TV(Q^{n+1}) \leq TV(Q^n)$.
 \begin{description}
   \item[WENO] stands for weighted essentially non-oscillatory. WENO consists
     of having different discretizations of the same cells and using a linear
